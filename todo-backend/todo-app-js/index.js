@@ -73,6 +73,20 @@ app.delete("/todos/:id", async (req, res) => {
   }
 });
 
+app.post("/todos/clear-completed", async (req, res) => {
+  try {
+    await ToDo.destroy({
+      where: {
+        completed: true,
+      },
+    });
+
+    res.json({ message: "Completed Tasks Deleted" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
